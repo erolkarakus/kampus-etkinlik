@@ -18,7 +18,7 @@ export async function getEventById(req, res) {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: { message: "Invalid event ID" } });
+      return res.status(404).json({ error: { message: "Event not found" } });
     }
     const event = await Event.findById(id);
     if (!event) {
@@ -57,7 +57,7 @@ export async function updateEvent(req, res) {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: { message: "Invalid event ID" } });
+      return res.status(404).json({ error: { message: "Event not found" } });
     }
     const updated = await Event.findByIdAndUpdate(id, req.body, {
       returnDocument: "after",
@@ -80,7 +80,7 @@ export async function deleteEvent(req, res) {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: { message: "Invalid event ID" } });
+      return res.status(404).json({ error: { message: "Event not found" } });
     }
     const deleted = await Event.findByIdAndDelete(id);
     if (!deleted) {
