@@ -60,7 +60,7 @@ export async function updateEvent(req, res) {
       return res.status(400).json({ error: { message: "Invalid event ID" } });
     }
     const updated = await Event.findByIdAndUpdate(id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     });
     if (!updated) {
