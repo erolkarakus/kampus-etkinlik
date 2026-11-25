@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDate, parseDate } from "../utils/date.js";
 
 const eventSchema = new mongoose.Schema(
   {
@@ -18,35 +19,15 @@ const eventSchema = new mongoose.Schema(
       min: [0, "capacity cannot be negative"],
     },
     date: {
-      type: String,
+      type: Date,
       required: [true, "date is required"],
-      trim: true,
-    },
-    time: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-    location: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-    description: {
-      type: String,
-      default: "",
-      trim: true,
+      set: parseDate,
+      get: formatDate,
     },
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform: (_doc, ret) => {
-        delete ret.__v;
-        return ret;
-      },
-    },
+    toJSON: { getters: true, id: false },
   }
 );
 
